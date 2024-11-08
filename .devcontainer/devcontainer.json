@@ -1,6 +1,6 @@
 // .devcontainer/devcontainer.json
 {
-    "name": "MEV Development",
+    "name": "pyrs-template",
     "image": "mcr.microsoft.com/devcontainers/rust:latest",
     "features": {
         "ghcr.io/devcontainers/features/node:1": {},
