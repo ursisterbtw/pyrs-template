@@ -6,7 +6,7 @@
     "features": {
         "ghcr.io/devcontainers/features/rust:1": {
             "version": "latest",
-            "profile": "complete"
+            "profile": "default"
         },
         "ghcr.io/devcontainers/features/python:1": {
             "installTools": true,
@@ -39,12 +39,14 @@
                 "GitHub.copilot",
                 "eamodio.gitlens",
                 "yzhang.markdown-all-in-one",
-                "ms-azuretools.vscode-docker"
+                "ms-azuretools.vscode-docker",
+                "github.vscode-github-actions"
             ],
             "settings": {
                 "editor.formatOnSave": true,
                 "python.linting.enabled": true,
-                "python.linting.pylintEnabled": true,
+                "python.linting.ruffEnabled": true,
+                "python.formatting.provider": "ruff",
                 "rust-analyzer.checkOnSave.command": "clippy",
                 "rust-analyzer.cargo.allFeatures": true,
                 "rust-analyzer.procMacro.enable": true,
@@ -52,7 +54,7 @@
             }
         }
     },
-    "postCreateCommand": "cargo install cargo-watch cargo-expand cargo-edit cargo-audit && pip install --upgrade pip web3 eth-brownie pytest black pylint jupyter solana-py anchorpy && npm install -g ganache-cli ethers solc prettier hardhat @openzeppelin/contracts",
+    // "postCreateCommand": "curl -L https://github.com/flamegraph-rs/flamegraph/releases/latest/download/flamegraph-x86_64-unknown-linux-gnu.tar.gz | tar xzf - && sudo mv flamegraph /usr/local/bin/ && uv venv && . .venv/bin/activate && uv pip install  && npm install -g ganache-cli ethers solc prettier hardhat @openzeppelin/contracts",
     "remoteUser": "vscode",
     "hostRequirements": {
         "memory": "8gb",
