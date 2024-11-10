@@ -54,7 +54,7 @@
             }
         }
     },
-    // "postCreateCommand": "curl -L https://github.com/flamegraph-rs/flamegraph/releases/latest/download/flamegraph-x86_64-unknown-linux-gnu.tar.gz | tar xzf - && sudo mv flamegraph /usr/local/bin/ && uv venv && . .venv/bin/activate && uv pip install  && npm install -g ganache-cli ethers solc prettier hardhat @openzeppelin/contracts",
+    "postCreateCommand": "pip install pre-commit && pre-commit install",
     "remoteUser": "vscode",
     "hostRequirements": {
         "memory": "8gb",
