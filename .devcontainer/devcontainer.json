@@ -40,7 +40,9 @@
                 "eamodio.gitlens",
                 "yzhang.markdown-all-in-one",
                 "ms-azuretools.vscode-docker",
-                "github.vscode-github-actions"
+                "github.vscode-github-actions",
+                "mechatroner.rainbow-csv",
+                "IBM.output-colorizer"
             ],
             "settings": {
                 "editor.formatOnSave": true,
