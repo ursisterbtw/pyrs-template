@@ -1,32 +1,62 @@
 {
-    "name": "pyrs-template",
-    "image": "mcr.microsoft.com/devcontainers/rust:latest",
+    "name": "Rust + Python Blockchain Dev Environment",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
     "features": {
-        "ghcr.io/devcontainers/features/node:1": {},
-        "ghcr.io/devcontainers/features/git:1": {},
-        "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {}
+        "ghcr.io/devcontainers/features/rust:1": {
+            "version": "latest",
+            "profile": "complete"
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.13",
+            "installTools": true,
+            "installJupyterlab": true
+        },
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "lts"
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": true
+        }
     },
     "customizations": {
         "vscode": {
             "extensions": [
                 "rust-lang.rust-analyzer",
                 "serayuzgur.crates",
-                "tamasfe.even-better-toml",
                 "vadimcn.vscode-lldb",
-                "github.copilot",
-                "github.copilot-chat"
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "JuanBlanco.solidity",
+                "tintinweb.solidity-visual-auditor",
+                "esbenp.prettier-vscode",
+                "GitHub.copilot",
+                "eamodio.gitlens",
+                "yzhang.markdown-all-in-one",
+                "ms-azuretools.vscode-docker"
             ],
             "settings": {
                 "editor.formatOnSave": true,
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
                 "rust-analyzer.checkOnSave.command": "clippy",
+                "rust-analyzer.cargo.allFeatures": true,
+                "rust-analyzer.procMacro.enable": true,
                 "rust-analyzer.inlayHints.enable": true
             }
         }
     },
-    "postCreateCommand": "curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup",
+    "postCreateCommand": "cargo install cargo-watch cargo-expand cargo-edit cargo-audit && pip install --upgrade pip web3 eth-brownie pytest black pylint jupyter solana-py anchorpy && npm install -g ganache-cli ethers solc prettier hardhat @openzeppelin/contracts",
     "remoteUser": "vscode",
+    "hostRequirements": {
+        "memory": "8gb",
+        "cpus": 4
+    },
     "mounts": [
-        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
     ],
     "runArgs": [
         "--cap-add=SYS_PTRACE",
