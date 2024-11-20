@@ -6,12 +6,10 @@
     "features": {
         "ghcr.io/devcontainers/features/rust:1": {
             "version": "latest",
-            "profile": "default"
+            "profile": "minimal"
         },
         "ghcr.io/devcontainers/features/python:1": {
             "installTools": true,
-            "installUv": true,
-            "installRuff": true,
             "optimized": true,
             "enableShared": true,
             "version": "latest"
@@ -34,15 +32,13 @@
                 "ms-python.vscode-pylance",
                 "ms-toolsai.jupyter",
                 "JuanBlanco.solidity",
-                "tintinweb.solidity-visual-auditor",
                 "esbenp.prettier-vscode",
                 "GitHub.copilot",
                 "eamodio.gitlens",
                 "yzhang.markdown-all-in-one",
                 "ms-azuretools.vscode-docker",
                 "github.vscode-github-actions",
-                "mechatroner.rainbow-csv",
-                "IBM.output-colorizer"
+                "mechatroner.rainbow-csv"
             ],
             "settings": {
                 "editor.formatOnSave": true,
