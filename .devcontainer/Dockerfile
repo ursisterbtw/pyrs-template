@@ -1,9 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
-# Avoid warnings by switching to noninteractive
+# Avoid warnings and install system dependencies
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
@@ -16,9 +14,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Switch back to dialog for any ad-hoc use of apt-get
+# Reset DEBIAN_FRONTEND
 ENV DEBIAN_FRONTEND=dialog
 
 # Set up environment variables
-ENV PATH="/root/.cargo/bin:${PATH}"
-ENV PYTHONPATH="${PYTHONPATH}:/workspace"
+ENV PATH="/root/.cargo/bin:${PATH}" \
+    PYTHONPATH="${PYTHONPATH}:/workspace"
