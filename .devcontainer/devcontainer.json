@@ -1,5 +1,5 @@
 {
-    "name": "Rust + Python Blockchain Dev Environment",
+    "name": "Rust + Python Dev Environment",
     "build": {
         "dockerfile": "Dockerfile"
     },
