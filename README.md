@@ -1,51 +1,47 @@
 # 🐍 pyrs-template 🦀
 
-## Python + Rust Template with Shared Library Support
+A development environment template for Python, Rust, and Node.js projects with shared library capabilities.
 
-This template provides a development environment for Python and Rust projects with shared library capabilities.
+## Features
 
-### Features
+- Multi-stage Docker build with minimal final image
+- Python 3.x and Rust toolchain
+- Node.js 20.x with npm
+- Pre-configured development container
+- Pre-commit hooks for code quality
+- GitHub Actions CI/CD
+- VS Code integration
 
-- Pre-configured development container with Python and Rust
-- Pre-commit hooks for code quality:
-  - Ruff for Python linting and formatting
-  - `cargo fmt` for Rust formatting
-- VS Code integration with recommended extensions
-- GitHub Actions for CI/CD
+## Quick Start
 
-### Setup
+### Prerequisites
 
-1. Clone this repository
-2. Open in VS Code with Dev Containers extension
-3. Pre-commit hooks will be automatically installed
+- Docker
+- VS Code with Dev Containers extension (optional)
 
-### Development
+### Development Container
 
-- Python code will be automatically formatted and linted using Ruff
-- Rust code will be automatically formatted using `cargo fmt`
-- All formatting checks will run before each commit
-
-### Notes
-
-#### Build the image (from the directory containing .devcontainer)
+Build the image:
 
 ```bash
 docker buildx build . -f .devcontainer/Dockerfile -o type=docker -t pyrs-dev
 ```
 
-#### Run the container
+Run the container:
 
 ```bash
 docker run -it --name pyrs-dev -v "${PWD}:/app" pyrs-dev
 ```
 
-#### If you want to enter a running container later
+Enter a running container:
 
 ```bash
 docker exec -it pyrs-dev bash
 ```
 
-#### Stop and remove the container + all volumes
+### Clean Up
+
+Stop and remove everything:
 
 ```bash
 docker stop pyrs-dev
@@ -53,9 +49,18 @@ docker rm pyrs-dev
 docker system prune -a --volumes
 ```
 
-#### Rebuild and run the container
+## Development
 
-```bash
-docker buildx build . -f .devcontainer/Dockerfile -o type=docker -t pyrs-dev
-docker run -it --name pyrs-dev -v "${PWD}:/app" pyrs-dev
-```
+- Python code is formatted with `black` and linted with `ruff`
+ Rust code is formatted with `rustfmt` and linted with `clippy`
+ Node.js packages managed with `npm`
+
+ Tests are run with `pytest` for Python and `cargo test` for Rust
+
+## VS Code Integration
+
+Open the project in VS Code and click "Reopen in Container" when prompted.
+
+## License
+
+MIT
