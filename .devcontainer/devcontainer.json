@@ -1,18 +1,46 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/rust
 {
-	"name": "Rust-Python-Node Development",
+	"name": "Python/Rust Development",
 	// Using custom Dockerfile instead of pre-built image
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"context": "."
 	},
 
 	// Remove features as they're now handled in the Dockerfile
 	// "features": { ... },
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install -r requirements.txt",
+	"postCreateCommand": "pip install -r requirements.txt && pip install -r .devcontainer/requirements.txt && rustup component add rustfmt clippy && pre-commit install",
 
 	// Configure tool-specific properties.
-	"customizations": {}
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"rust-lang.rust-analyzer",
+				"tamasfe.even-better-toml",
+				"github.copilot",
+				"ms-python.black-formatter",
+				"ms-python.isort"
+			],
+			"settings": {
+				"python.formatting.provider": "black",
+				"python.linting.enabled": true,
+				"python.linting.flake8Enabled": true,
+				"[python]": {
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": "always"
+					}
+				},
+				"[rust]": {
+					"editor.formatOnSave": true
+				}
+			}
+		}
+	},
+	"remoteUser": "root"
 }

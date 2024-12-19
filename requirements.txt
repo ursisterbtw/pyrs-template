@@ -1,20 +1,9 @@
-discord.py
-web3
-solana
-solders
-pandas
-toml
-rich
-uvloop
-aiohttp
-websockets
-pyyaml
-eth-utils
-python-dotenv
-tomli
-ruff
-pylint
-pytest
-prometheus-client
-pre-commit
-sourcery
+# Development dependencies
+black==23.12.1
+isort==5.13.2
+flake8==7.0.0
+pytest==7.4.4
+pre-commit==3.6.0
+
+# Project dependencies
+# Add your project-specific dependencies here

@@ -18,3 +18,5 @@ pytest
 prometheus-client
 pre-commit
 sourcery
+ipython
+debugpy

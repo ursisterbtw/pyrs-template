@@ -1,8 +1,10 @@
 def main():
     print("Hello, world!")
 
-def test_example():
-    assert 1 + 1 == 2
+
+def test_string_reverse():
+    assert "hello"[::-1] == "olleh"
+    print("Test passed")
 
 if __name__ == "__main__":
-    main()
+    test_string_reverse()

@@ -24,3 +24,23 @@ This template provides a development environment for Python and Rust projects wi
 - Python code will be automatically formatted and linted using Ruff
 - Rust code will be automatically formatted using `cargo fmt`
 - All formatting checks will run before each commit
+
+### Notes
+
+#### Build the image (from the directory containing .devcontainer)
+
+```bash
+docker build -t pyrs-dev -f .devcontainer/Dockerfile .
+```
+
+#### Run the container
+
+```bash
+docker run -it --name pyrs-dev:latest -v $(pwd):/app pyrs-dev:latest
+```
+
+#### If you want to enter a running container later
+
+```bash
+docker exec -it pyrs-dev:latest bash
+```
