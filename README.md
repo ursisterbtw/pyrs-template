@@ -30,17 +30,17 @@ This template provides a development environment for Python and Rust projects wi
 #### Build the image (from the directory containing .devcontainer)
 
 ```bash
-docker build -t pyrs-dev -f .devcontainer/Dockerfile .
+docker buildx build . -f .devcontainer/Dockerfile -o type=docker -t pyrs-dev
 ```
 
 #### Run the container
 
 ```bash
-docker run -it --name pyrs-dev:latest -v $(pwd):/app pyrs-dev:latest
+docker run -it --name pyrs-dev -v "${PWD}:/app" pyrs-dev
 ```
 
 #### If you want to enter a running container later
 
 ```bash
-docker exec -it pyrs-dev:latest bash
+docker exec -it pyrs-dev bash
 ```
