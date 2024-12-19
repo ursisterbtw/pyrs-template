@@ -44,3 +44,18 @@ docker run -it --name pyrs-dev -v "${PWD}:/app" pyrs-dev
 ```bash
 docker exec -it pyrs-dev bash
 ```
+
+#### Stop and remove the container + all volumes
+
+```bash
+docker stop pyrs-dev
+docker rm pyrs-dev
+docker system prune -a --volumes
+```
+
+#### Rebuild and run the container
+
+```bash
+docker buildx build . -f .devcontainer/Dockerfile -o type=docker -t pyrs-dev
+docker run -it --name pyrs-dev -v "${PWD}:/app" pyrs-dev
+```

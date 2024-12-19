@@ -57,6 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    python3-venv \
    python3-distutils \
    python3-setuptools \
+   build-essential \
    && rm -rf /var/lib/apt/lists/* \
    && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
 # Copy Node.js setup and install
