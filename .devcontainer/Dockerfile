@@ -2,7 +2,10 @@ FROM debian:bullseye-slim AS base
 # Set environment variables
 ENV RUSTUP_HOME=/usr/local/rustup \
    CARGO_HOME=/usr/local/cargo \
-   PATH=/usr/local/cargo/bin:$PATH
+   PATH=/usr/local/cargo/bin:$PATH \
+   GO_VERSION=1.19.5 \
+   GOPATH=/usr/local/go \
+   PATH=/usr/local/go/bin:$PATH
 # Install base dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
    curl \
@@ -12,7 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    pkg-config \
    git \
    gnupg \
+   python3 \
+   python3-pip \
+   python3-venv \
+   python3-distutils \
+   python3-setuptools \
    && rm -rf /var/lib/apt/lists/*
+
 # ==============================
 # Rust Installation
 # ==============================
@@ -20,18 +29,13 @@ FROM base AS rust-builder
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal \
    && rustup component add rustfmt clippy \
    && cargo install cargo-watch
+
 # ==============================
 # Python Installation
 # ==============================
 FROM base AS python-builder
-RUN apt-get update && apt-get install -y --no-install-recommends \
-   python3 \
-   python3-pip \
-   python3-venv \
-   python3-distutils \
-   python3-setuptools \
-   && rm -rf /var/lib/apt/lists/* \
-   && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
 # ==============================
 # Node.js Installation
 # ==============================
@@ -42,6 +46,15 @@ RUN mkdir -p /etc/apt/keyrings \
    && apt-get update \
    && apt-get install -y nodejs \
    && npm install -g npm@latest
+
+# ==============================
+# Go Installation
+# ==============================
+FROM base AS go-builder
+RUN curl -LO https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz \
+   && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
+   && rm go${GO_VERSION}.linux-amd64.tar.gz
+
 # ==============================
 # Final Image
 # ==============================
@@ -60,14 +73,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    build-essential \
    && rm -rf /var/lib/apt/lists/* \
    && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
 # Copy Node.js setup and install
 COPY --from=node-builder /etc/apt/keyrings/nodesource.gpg /etc/apt/keyrings/
 COPY --from=node-builder /etc/apt/sources.list.d/nodesource.list /etc/apt/sources.list.d/
 RUN apt-get update && apt-get install -y nodejs \
    && rm -rf /var/lib/apt/lists/*
+
 # Copy Rust
 COPY --from=rust-builder /usr/local/cargo /usr/local/cargo
 COPY --from=rust-builder /usr/local/rustup /usr/local/rustup
+
 # Copy Python and its dependencies
 COPY --from=python-builder /usr/bin/python3 /usr/bin/python3
 COPY --from=python-builder /usr/bin/pip3 /usr/bin/pip3
@@ -76,18 +92,27 @@ COPY --from=python-builder /usr/lib/python3.9 /usr/lib/python3.9
 COPY --from=python-builder /usr/local/lib/python3.9 /usr/local/lib/python3.9
 COPY --from=python-builder /usr/lib/python3/dist-packages /usr/lib/python3/dist-packages
 COPY --from=python-builder /usr/local/lib/python3.9/dist-packages /usr/local/lib/python3.9/dist-packages
+
+# Copy Go
+COPY --from=go-builder /usr/local/go /usr/local/go
+
 # Set environment variables
 ENV RUSTUP_HOME=/usr/local/rustup \
    CARGO_HOME=/usr/local/cargo \
    PATH=/usr/local/cargo/bin:$PATH \
    PYTHONPATH=/usr/lib/python3.9:/usr/local/lib/python3.9:/usr/lib/python3/dist-packages:/usr/local/lib/python3.9/dist-packages \
-   LANG=C.UTF-8
+   LANG=C.UTF-8 \
+   GOPATH=/usr/local/go \
+   PATH=/usr/local/go/bin:$PATH
+
 # Verify installations
 RUN python3 --version && \
    pip3 --version && \
    node --version && \
    npm --version && \
    rustc --version && \
-   cargo --version
+   cargo --version && \
+   go version
+
 WORKDIR /app
 CMD ["bash"]
