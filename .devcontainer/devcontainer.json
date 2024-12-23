@@ -8,9 +8,6 @@
 		"context": "."
 	},
 
-	// Remove features as they're now handled in the Dockerfile
-	// "features": { ... },
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "pip install -r requirements.txt && pip install -r .devcontainer/requirements.txt && rustup component add rustfmt clippy && pre-commit install",
 
